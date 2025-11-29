@@ -30,6 +30,7 @@
             border: 1px solid var(--color-border);
         }
 
+<<<<<<< HEAD
         .checkout-cart {
             width: 260px !important;
             max-height: 500px !important;
@@ -38,6 +39,17 @@
             flex-shrink: 0 !important;
             align-self: flex-start !important;
        }
+=======
+       
+        .checkout-cart {
+            width: 280px;         
+            max-height: 500px;   
+            overflow-y: auto;      
+            overflow-x: hidden;
+            flex-shrink: 0;        
+            align-self: flex-start;
+        }
+>>>>>>> fc0f00d5dc368fc82bcfd86d5af9e25d24aed93a
 
     </style>
 </head>
@@ -99,6 +111,10 @@
     <script src="../js/components/header.js"></script>
     <script src="../js/components/footer.js"></script>
     <script>
+<<<<<<< HEAD
+=======
+    // Renderiza os itens do carrinho salvos no localStorage
+>>>>>>> fc0f00d5dc368fc82bcfd86d5af9e25d24aed93a
     const cartItemsDiv = document.getElementById("cart-items");
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -114,6 +130,10 @@
 
             const resolveImagePath = (img) => {
                 if (!img) return "";
+<<<<<<< HEAD
+=======
+                // Imagens internas vêm com caminho a partir de `public/` — precisamos voltar um nível
+>>>>>>> fc0f00d5dc368fc82bcfd86d5af9e25d24aed93a
                 return img.startsWith("public/") ? `../${img}` : img;
             };
 
@@ -136,4 +156,8 @@
 </script>
 
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> fc0f00d5dc368fc82bcfd86d5af9e25d24aed93a

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho | Caputeeno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    
+    <style>
+        .cart-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+        
+        .cart-item {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+        
+        .cart-item-image {
+            width: 100px;
+            height: 120px;
+            object-fit: cover;
+            background-color: var(--color-bg-alt);
+        }
+        
+        .cart-summary {
+            background: var(--color-bg-alt);
+            padding: 2rem;
+            border-radius: var(--radius);
+            height: fit-content;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .summary-total {
+            border-top: 1px solid var(--color-border);
+            padding-top: 1rem;
+            margin-top: 1rem;
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+        
+        @media (max-width: 768px) {
+            .cart-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <app-header></app-header>
+
+    <main class="container section">
+        <h1 class="section-title">Sua Sacola de Compras</h1>
+        
+        <div class="cart-grid">
+            <div class="cart-items-list" id="cart-items">
+                <p style="color: var(--color-text-light);">Seu carrinho está vazio.</p>
+            </div>
+            
+            <div class="cart-summary">
+                <h3 style="margin-bottom: 1.5rem;">Resumo do Pedido</h3>
+                <div>
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="cart-subtotal">R$ 0,00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Frete</span>
+                        <span>Grátis</span>
+                    </div>
+                    <div class="summary-row summary-total">
+                        <span>Total</span>
+                        <span id="cart-total">R$ 0,00</span>
+                    </div>
+                    <a href="checkout.html" class="btn btn-primary" style="width: 100%; margin-top: 1.5rem; justify-content: center;">Finalizar Compra</a>
+                    <a href="products.html" class="btn btn-outline" style="width: 100%; margin-top: 0.5rem; justify-content: center;">Continuar Comprando</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <app-footer></app-footer>
+
+    <script src="../js/components/header.js"></script>
+    <script src="../js/components/footer.js"></script>
+    <script src="../js/auth.js" defer></script>
+    <script src="../js/main.js"></script>
+</body>
+</html>
