@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Roupas | Caputeeno</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+
+    <style>
+      .catalog-controls {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-bottom: 2rem;
+        gap: 1rem;
+      }
+
+      .sort-select {
+        width: 200px !important;
+        cursor: pointer;
+      }
+
+      @media (max-width: 480px) {
+        .catalog-controls {
+          justify-content: space-between;
+        }
+        .sort-select {
+          width: 160px !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <app-header></app-header>
+
+    <main class="container section">
+      <h1 class="section-title">Nossa Coleção</h1>
+
+      <p style="margin-bottom: 2rem; color: var(--color-text-light); max-width: 600px">
+        Peças atemporais selecionadas para você. Conheça nossa linha completa de roupas e
+        acessórios.
+      </p>
+
+      <div class="catalog-controls">
+        <label for="sort-by" style="color: var(--color-text-light); font-size: 0.9rem"
+          >Ordenar por:</label
+        >
+        <select id="sort-by" class="sort-select">
+          <option value="relevance">Relevância</option>
+          <option value="low-price">Menor Preço</option>
+          <option value="high-price">Maior Preço</option>
+          <option value="newest">Mais Recentes</option>
+        </select>
+      </div>
+
+      <div class="grid-products" id="products-list-container"></div>
+    </main>
+
+    <app-footer></app-footer>
+
+    <script src="../js/components/header.js"></script>
+    <script src="../js/components/footer.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/auth.js" defer></script>
+  </body>
+</html>

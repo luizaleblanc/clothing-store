@@ -30,13 +30,16 @@
             border: 1px solid var(--color-border);
         }
 
+       
         .checkout-cart {
-            width: 280px;          
-            max-height: 500px;    
+            width: 280px;         
+            max-height: 500px;   
             overflow-y: auto;      
             overflow-x: hidden;
             flex-shrink: 0;        
+            align-self: flex-start;
         }
+
     </style>
 </head>
 <body>
@@ -97,6 +100,7 @@
     <script src="../js/components/header.js"></script>
     <script src="../js/components/footer.js"></script>
     <script>
+    // Renderiza os itens do carrinho salvos no localStorage
     const cartItemsDiv = document.getElementById("cart-items");
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -112,6 +116,7 @@
 
             const resolveImagePath = (img) => {
                 if (!img) return "";
+                // Imagens internas vêm com caminho a partir de `public/` — precisamos voltar um nível
                 return img.startsWith("public/") ? `../${img}` : img;
             };
 
