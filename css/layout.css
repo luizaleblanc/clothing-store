@@ -44,7 +44,7 @@
 
 .grid-products {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 2rem;
 }
 
@@ -67,6 +67,17 @@
 
 .section-bg-alt {
     background-color: var(--color-bg-alt);
+}
+
+@media (max-width: 768px) {
+    .nav {
+        display: none;
+    }
+
+    .grid-footer {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
 }
 
 .logo-img {
@@ -118,6 +129,17 @@
 .menu-link:hover {
     background-color: var(--color-bg-alt);
     color: var(--color-primary);
+}
+
+@media (max-width: 480px) {
+    .mobile-menu {
+        width: 100%;
+        right: 0;
+        left: 0;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
 }
 
 .back-btn-page {
@@ -198,30 +220,47 @@
     display: block !important; 
 }
 
-@media (max-width: 768px) {
-    .nav {
-        display: none;
-    }
-
-    .grid-footer {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-    }
-
-    .section {
-        padding: 3rem 0;
-    }
-    
-    .grid-products {
-        gap: 1.5rem;
-    }
+.search-form-container {
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--color-header-bg); 
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem;
+    transform: translateY(-100%); 
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out, visibility 0.3s;
+    border-bottom: 1px solid var(--color-border);
 }
 
-@media (max-width: 480px) {
-    .mobile-menu {
-        width: 100%;
-        border-radius: 0;
-        border-left: none;
-        border-right: none;
-    }
+.search-form-container.open {
+    transform: translateY(0); 
+    opacity: 1;
+    visibility: visible;
+}
+
+.search-form-container form {
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+}
+
+.search-form-container input {
+    flex-grow: 1;
+    height: 50px; 
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+}
+
+.search-form-container .close-search-btn {
+    flex-shrink: 0;
 }

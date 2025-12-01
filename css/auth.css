@@ -21,6 +21,8 @@
 .auth-title {
     text-align: center;
     margin-bottom: 25px;
+    color: #FFFFFF; 
+    font-weight: 700;
 }
 
 .auth-logo {
@@ -87,11 +89,100 @@ html[data-theme="dark"] .auth-logo img {
     margin-top: 20px;
     font-size: 14px;
     color: var(--color-text-light);
+    align-items: center;
 }
 
 .auth-links a {
     font-size: 14px;
     color: var(--color-accent);
     font-weight: 500;
+    padding: 0;
+    background-color: transparent;
+    border-radius: 0;
 }
 
+.input-icon-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.input-icon-wrapper input {
+    padding-right: 40px;
+}
+
+.password-toggle-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--color-text-light);
+    z-index: 10; 
+}
+
+.auth-utilities {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.theme-toggle-switch {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 25px; 
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-light);
+    cursor: pointer;
+    user-select: none;
+}
+
+.theme-toggle-switch input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: relative;
+    cursor: pointer;
+    width: 40px;
+    height: 20px;
+    background-color: var(--color-border);
+    border-radius: 20px;
+    transition: background-color 0.3s;
+    flex-shrink: 0;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 2px;
+    background-color: var(--color-bg);
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.theme-toggle-switch input:checked + .slider {
+    background-color: var(--color-primary);
+}
+
+.theme-toggle-switch input:checked + .slider:before {
+    transform: translateX(20px);
+    background-color: var(--color-bg); 
+}
+
+[data-theme="dark"] .theme-toggle-switch {
+    color: var(--color-text-light);
+}
+
+[data-theme="dark"] .theme-toggle-switch .slider {
+    background-color: var(--color-border);
+}

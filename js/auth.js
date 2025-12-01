@@ -1,149 +1,153 @@
 function getLoggedUser() {
-    return JSON.parse(localStorage.getItem("loggedUser"));
+  return JSON.parse(localStorage.getItem("loggedUser"));
 }
 
 function registerUser(name, email, password) {
-    const users = JSON.parse(localStorage.getItem("users")) || []; 
-    const exists = users.some(u => u.email === email);
-    if (exists) return false;
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const exists = users.some((u) => u.email === email);
+  if (exists) return false;
 
-    users.push({ name, email, password });
-    localStorage.setItem("users", JSON.stringify(users));
-    return true;
+  users.push({ name, email, password });
+  localStorage.setItem("users", JSON.stringify(users));
+  return true;
 }
 
 function loginUser(email, password) {
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const user = users.find(u => u.email === email && u.password === password);
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const user = users.find((u) => u.email === email && u.password === password);
 
-    if (user) {
-        localStorage.setItem("loggedUser", JSON.stringify(user));
-        return true;
-    }
-    return false;
+  if (user) {
+    localStorage.setItem("loggedUser", JSON.stringify(user));
+    return true;
+  }
+  return false;
 }
 
 function redirectToLogin() {
-    if (window.location.pathname.includes("/pages/")) {
-        window.location.href = "login.html"; 
-    } else {
-        window.location.href = "pages/login.html"; 
-    }
+  if (window.location.pathname.includes("/pages/")) {
+    window.location.href = "login.html";
+  } else {
+    window.location.href = "pages/login.html";
+  }
 }
 
 function confirmAccountRemoval(email) {
-    const isConfirmed = confirm("Tem certeza absoluta que deseja excluir sua conta? Esta ação é irreversível.");
-    
-    if (isConfirmed) {
-        if (removeUser(email)) {
-            alert("Sua conta foi excluída com sucesso. Redirecionando para o login.");
-            redirectToLogin();
-        } else {
-            alert("Erro ao excluir a conta. Tente novamente.");
-        }
+  const isConfirmed = confirm(
+    "Tem certeza absoluta que deseja excluir sua conta? Esta ação é irreversível."
+  );
+
+  if (isConfirmed) {
+    if (removeUser(email)) {
+      alert("Sua conta foi excluída com sucesso. Redirecionando para o login.");
+      redirectToLogin();
     } else {
-        alert("Exclusão cancelada. Sua conta permanece ativa.");
+      alert("Erro ao excluir a conta. Tente novamente.");
     }
+  } else {
+    alert("Exclusão cancelada. Sua conta permanece ativa.");
+  }
 }
 
 function logoutUser() {
-    localStorage.removeItem("loggedUser");
-    redirectToLogin();
+  localStorage.removeItem("loggedUser");
+  redirectToLogin();
 }
 
 function requestPasswordReset(email) {
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const userExists = users.some(u => u.email === email);
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const userExists = users.some((u) => u.email === email);
 
-    if (userExists) {
-        localStorage.setItem("resetEmail", email);
-        return true;
-    }
-    return false;
+  if (userExists) {
+    localStorage.setItem("resetEmail", email);
+    return true;
+  }
+  return false;
 }
 
 function performPasswordReset(email, newPassword) {
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const userIndex = users.findIndex(u => u.email === email);
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const userIndex = users.findIndex((u) => u.email === email);
 
-    if (userIndex !== -1) {
-        users[userIndex].password = newPassword;
-        localStorage.setItem("users", JSON.stringify(users));
-        localStorage.removeItem("resetEmail"); 
-        return true;
-    }
-    return false;
+  if (userIndex !== -1) {
+    users[userIndex].password = newPassword;
+    localStorage.setItem("users", JSON.stringify(users));
+    localStorage.removeItem("resetEmail");
+    return true;
+  }
+  return false;
 }
 
 function removeUser(emailToRemove) {
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const updatedUsers = users.filter(user => user.email !== emailToRemove);
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const updatedUsers = users.filter((user) => user.email !== emailToRemove);
 
-    if (updatedUsers.length < users.length) {
-        localStorage.setItem("users", JSON.stringify(updatedUsers));
-        
-        const logged = getLoggedUser();
-        if (logged && logged.email === emailToRemove) {
-            localStorage.removeItem("loggedUser");
-        }
-        return true;
+  if (updatedUsers.length < users.length) {
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+
+    const logged = getLoggedUser();
+    if (logged && logged.email === emailToRemove) {
+      localStorage.removeItem("loggedUser");
     }
-    return false;
+    return true;
+  }
+  return false;
 }
 
 function updateHeader() {
-    const user = getLoggedUser();
+  const user = getLoggedUser();
 
-    setTimeout(() => {
-        const loginIcon = document.querySelector('.icon-btn[aria-label="Login"]');
-        if (!loginIcon) return; 
+  setTimeout(() => {
+    const loginIcon = document.querySelector('.icon-btn[aria-label="Login"]');
+    if (!loginIcon) return;
 
-        const loginPath = window.location.pathname.includes("/pages/") ? "login.html" : "pages/login.html";
+    const loginPath = window.location.pathname.includes("/pages/")
+      ? "login.html"
+      : "pages/login.html";
 
-        if (user) {
-            const dropdownHTML = `
+    if (user) {
+      const dropdownHTML = `
                 <div class="profile-dropdown-container" id="profileDropdown">
                     <a href="#" class="icon-btn profile-trigger" aria-label="Perfil">
                         <span style="font-size:14px;">Olá, ${user.name.split(" ")[0]}</span>
                     </a>
                     <div class="dropdown-content">
                         <a href="javascript:logoutUser()">Finalizar Sessão</a>
-                        <a href="javascript:confirmAccountRemoval('${user.email}')">Excluir Conta</a>
+                        <a href="javascript:confirmAccountRemoval('${
+                          user.email
+                        }')">Excluir Conta</a>
                     </div>
                 </div>
             `;
-            
-            loginIcon.outerHTML = dropdownHTML;
-            
-            const profileDropdown = document.getElementById('profileDropdown');
 
-            if (profileDropdown) {
-                profileDropdown.addEventListener('click', function(e) {
-                    const logoutLink = e.target.closest('a[href="javascript:logoutUser()"]');
+      loginIcon.outerHTML = dropdownHTML;
 
-                    if (logoutLink) {
-                        e.stopPropagation(); 
-                        return;
-                    }
+      const profileDropdown = document.getElementById("profileDropdown");
 
-                    const trigger = e.target.closest('.profile-trigger');
-                    if (trigger) {
-                        e.preventDefault(); 
-                        this.classList.toggle('open');
-                    }
-                });
+      if (profileDropdown) {
+        profileDropdown.addEventListener("click", function (e) {
+          const logoutLink = e.target.closest('a[href="javascript:logoutUser()"]');
 
-                document.addEventListener('click', function(e) {
-                    if (profileDropdown && !profileDropdown.contains(e.target)) {
-                        profileDropdown.classList.remove('open');
-                    }
-                });
-            }
+          if (logoutLink) {
+            e.stopPropagation();
+            return;
+          }
 
+          const trigger = e.target.closest(".profile-trigger");
+          if (trigger) {
+            e.preventDefault();
+            this.classList.toggle("open");
+          }
+        });
 
-        } else {
-            loginIcon.href = loginPath;
-            loginIcon.innerHTML = `
+        document.addEventListener("click", function (e) {
+          if (profileDropdown && !profileDropdown.contains(e.target)) {
+            profileDropdown.classList.remove("open");
+          }
+        });
+      }
+    } else {
+      loginIcon.href = loginPath;
+      loginIcon.innerHTML = `
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" 
@@ -151,81 +155,118 @@ function updateHeader() {
                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
             `;
-        }
-    }, 200);
+    }
+  }, 200);
 }
 
-document.addEventListener("DOMContentLoaded", updateHeader);
+function initThemeAuth() {
+  const toggleInput = document.getElementById("theme-toggle-input");
+  if (!toggleInput) return;
+
+  const savedTheme = localStorage.getItem("theme");
+  const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const initialTheme = savedTheme || (systemDark ? "dark" : "light");
+
+  document.documentElement.setAttribute("data-theme", initialTheme);
+
+  toggleInput.checked = initialTheme === "dark";
+
+  toggleInput.addEventListener("change", () => {
+    const newTheme = toggleInput.checked ? "dark" : "light";
+
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
+  });
+}
+
+function togglePasswordVisibility(id, iconElement) {
+  const input = document.getElementById(id);
+
+  if (input.type === "password") {
+    input.type = "text";
+    iconElement.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye-off"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.91 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.45 18.45 0 0 1-5.06 5.94M15 12a3 3 0 0 1-3 3M12 9a3 3 0 0 0-3 3"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
+  } else {
+    input.type = "password";
+    iconElement.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  updateHeader();
+  initThemeAuth();
+});
 
 document.getElementById("loginForm")?.addEventListener("submit", function (e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    const email = document.getElementById("email").value.trim();
-    const pass = document.getElementById("password").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const pass = document.getElementById("password").value.trim();
 
-    if (!loginUser(email, pass)) {
-        alert("Email ou senha incorretos! Tente novamente.");
-        return;
-    }
+  if (!loginUser(email, pass)) {
+    alert("Email ou senha incorretos! Tente novamente.");
+    return;
+  }
 
-    window.location.href = "../index.html";
+  window.location.href = "../index.html";
 });
 
 document.getElementById("registerForm")?.addEventListener("submit", function (e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const pass = document.getElementById("password").value.trim();
-    const confirmPass = document.getElementById("confirmPassword").value.trim(); 
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const pass = document.getElementById("password").value.trim();
+  const confirmPass = document.getElementById("confirmPassword").value.trim();
 
-    if (pass !== confirmPass) {
-        alert("Erro: A senha e a confirmação de senha não coincidem!");
-        return; 
-    }
-    
-    if (!registerUser(name, email, pass)) {
-        alert("Este email já está registrado!");
-        return;
-    }
+  if (pass !== confirmPass) {
+    alert("Erro: A senha e a confirmação de senha não coincidem!");
+    return;
+  }
 
-    alert("Cadastro realizado com sucesso! Faça login para continuar.");
-    window.location.href = "login.html";
+  if (!registerUser(name, email, pass)) {
+    alert("Este email já está registrado!");
+    return;
+  }
+
+  alert("Cadastro realizado com sucesso! Faça login para continuar.");
+  window.location.href = "login.html";
 });
 
 document.getElementById("forgotPasswordForm")?.addEventListener("submit", function (e) {
-    e.preventDefault();
-    const email = document.getElementById("resetEmail").value.trim();
+  e.preventDefault();
+  const email = document.getElementById("resetEmail").value.trim();
 
-    if (requestPasswordReset(email)) {
-        alert("Se o email estiver cadastrado, o link foi 'enviado'. Redirecionando para a redefinição...");
-        window.location.href = "reset-password.html";
-    } else {
-        alert("Email não encontrado. Verifique se o digitou corretamente.");
-    }
+  if (requestPasswordReset(email)) {
+    alert(
+      "Se o email estiver cadastrado, o link foi 'enviado'. Redirecionando para a redefinição..."
+    );
+    window.location.href = "reset-password.html";
+  } else {
+    alert("Email não encontrado. Verifique se o digitou corretamente.");
+  }
 });
 
 document.getElementById("resetPasswordForm")?.addEventListener("submit", function (e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    const email = localStorage.getItem("resetEmail"); 
-    if (!email) {
-        alert("Erro: O processo de redefinição não foi iniciado. Volte e use o 'Esqueci minha senha'.");
-        return;
-    }
+  const email = localStorage.getItem("resetEmail");
+  if (!email) {
+    alert("Erro: O processo de redefinição não foi iniciado. Volte e use o 'Esqueci minha senha'.");
+    return;
+  }
 
-    const newPass = document.getElementById("newPassword").value.trim();
-    const confirmNewPass = document.getElementById("confirmNewPassword").value.trim();
+  const newPass = document.getElementById("newPassword").value.trim();
+  const confirmNewPass = document.getElementById("confirmNewPassword").value.trim();
 
-    if (newPass !== confirmNewPass) {
-        alert("Erro: As novas senhas não coincidem!");
-        return;
-    }
+  if (newPass !== confirmNewPass) {
+    alert("Erro: As novas senhas não coincidem!");
+    return;
+  }
 
-    if (performPasswordReset(email, newPass)) {
-        alert("Senha redefinida com sucesso! Faça login com sua nova senha.");
-        window.location.href = "login.html";
-    } else {
-        alert("Erro ao redefinir. Tente iniciar o processo novamente.");
-    }
+  if (performPasswordReset(email, newPass)) {
+    alert("Senha redefinida com sucesso! Faça login com sua nova senha.");
+    window.location.href = "login.html";
+  } else {
+    alert("Erro ao redefinir. Tente iniciar o processo novamente.");
+  }
 });

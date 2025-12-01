@@ -51,9 +51,6 @@ class AppHeader extends HTMLElement {
           <div class="search-form-container" id="search-overlay">
             <form id="desktopSearchForm">
                 <input type="search" name="q" placeholder="Digite sua busca e pressione Enter..." required autofocus>
-                <button type="submit" class="btn btn-primary" aria-label="Buscar produto">
-                    Buscar
-                </button>
                 <button type="button" class="icon-btn close-search-btn" id="close-search" aria-label="Fechar busca">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
@@ -69,10 +66,6 @@ class AppHeader extends HTMLElement {
                     <li><a href="${this.basePath}/pages/products.html" class="menu-link">Roupas</a></li>
                     <li><a href="${this.basePath}/pages/about.html" class="menu-link">Nossa História</a></li>
                 </ul>
-                <form id="mobileSearchForm" style="padding: 1rem 1.5rem 0; margin-top: 1rem; border-top: 1px solid var(--color-border);">
-                  <input type="search" name="q" placeholder="Buscar produtos..." required style="margin-bottom: 0.5rem;"/>
-                  <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Buscar</button>
-                </form>
             </nav>
           </div>
         </div>
@@ -132,7 +125,7 @@ class AppHeader extends HTMLElement {
       }
     });
   }
-  
+
   updateCartCount() {
     const cartCountEl = this.querySelector("#cart-count");
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -140,58 +133,54 @@ class AppHeader extends HTMLElement {
       cartCountEl.textContent = cart.reduce((acc, item) => acc + item.quantity, 0);
     }
   }
-  
+
   initSearch() {
-      const searchToggle = this.querySelector("#search-toggle");
-      const searchOverlay = this.querySelector("#search-overlay");
-      const closeSearch = this.querySelector("#close-search");
-      const desktopSearchForm = this.querySelector("#desktopSearchForm");
-      const mobileSearchForm = this.querySelector("#mobileSearchForm");
-      
-      const handleSearch = (event, form) => {
-          event.preventDefault();
-          const query = form.querySelector('input[name="q"]').value.trim();
-          if (query) {
-              const targetPath = `${this.basePath}/pages/products.html?q=${encodeURIComponent(query)}`;
-              window.location.href = targetPath;
-          }
-      };
+    const searchToggle = this.querySelector("#search-toggle");
+    const searchOverlay = this.querySelector("#search-overlay");
+    const closeSearch = this.querySelector("#close-search");
+    const desktopSearchForm = this.querySelector("#desktopSearchForm");
 
-      searchToggle.addEventListener("click", (e) => {
-          e.preventDefault();
-          e.stopPropagation(); 
-          searchOverlay.classList.toggle("open");
-          if (searchOverlay.classList.contains("open")) {
-              searchOverlay.querySelector('input[name="q"]').focus();
-          }
-      });
-      
-      closeSearch.addEventListener("click", () => {
-          searchOverlay.classList.remove("open");
-      });
+    const handleSearch = (event, form) => {
+      event.preventDefault();
+      const query = form.querySelector('input[name="q"]').value.trim();
+      if (query) {
+        const targetPath = `${this.basePath}/pages/products.html?q=${encodeURIComponent(query)}`;
+        window.location.href = targetPath;
+      }
+    };
 
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && searchOverlay.classList.contains('open')) {
-            searchOverlay.classList.remove("open");
-        }
-      });
+    searchToggle.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      searchOverlay.classList.toggle("open");
+      if (searchOverlay.classList.contains("open")) {
+        searchOverlay.querySelector('input[name="q"]').focus();
+      }
+    });
 
-      document.addEventListener("click", (e) => {
-          if (searchOverlay && searchToggle && 
-              searchOverlay.classList.contains('open') && 
-              !searchOverlay.contains(e.target) && 
-              !searchToggle.contains(e.target)
-          ) {
-              searchOverlay.classList.remove("open");
-          }
-      });
+    closeSearch.addEventListener("click", () => {
+      searchOverlay.classList.remove("open");
+    });
 
-      desktopSearchForm?.addEventListener("submit", (e) => handleSearch(e, desktopSearchForm));
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && searchOverlay.classList.contains("open")) {
+        searchOverlay.classList.remove("open");
+      }
+    });
 
-      mobileSearchForm?.addEventListener("submit", (e) => {
-          handleSearch(e, mobileSearchForm);
-          this.querySelector("#mobile-menu").classList.remove("open");
-      });
+    document.addEventListener("click", (e) => {
+      if (
+        searchOverlay &&
+        searchToggle &&
+        searchOverlay.classList.contains("open") &&
+        !searchOverlay.contains(e.target) &&
+        !searchToggle.contains(e.target)
+      ) {
+        searchOverlay.classList.remove("open");
+      }
+    });
+
+    desktopSearchForm?.addEventListener("submit", (e) => handleSearch(e, desktopSearchForm));
   }
 }
 

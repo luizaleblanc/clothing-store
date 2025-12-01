@@ -61,40 +61,42 @@ const products = [
     price: 1300.0,
     category: "Casacos",
     image: "public/sobretudo.png",
-    description: "Sobretudo trench na cor cinza é um ícone de estilo atemporal."
+    description: "Sobretudo trench na cor cinza é um ícone de estilo atemporal.",
   },
   {
     id: 9,
     name: "A Saia Lápis Clássica",
     price: 480.0,
     category: "Saias",
-  image: "public/saia.png",
-  description: "Saia lápis em lã cinza carvão esculpe a silhueta com sofisticação."
- },
- {
-  id: 10,
-  name: "Vestido Longo Drapeado em Verde Esmeralda",
-  price: 1500.0,
-  category: "Vestidos",
-  image:"public/vestidoverde.png",
-  description: "Vestido longo em verde esmeralda é uma celebração da cor e da fluidez."
- },
- {
-  id: 11,
-  name: "Blazer de Lã Texturizada",
-  price: 600.0,
-  category: "Alfaiataria",
-  image: "public/blazer.png",
-  description: "Blazer clássico, agora em um sofisticado tom de azul profundo, é a personificação da elegância versátil."
- },
- {
-  id: 12,
-  name: "Camisa Social",
-  price: 450.0,
-  category: "Camisas",
-  image: "public/camisa.png",
-description: "Camisa social em um tom de azul sereno, exibindo a fluidez e o caimento impecável."
- }
+    image: "public/saia.png",
+    description: "Saia lápis em lã cinza carvão esculpe a silhueta com sofisticação.",
+  },
+  {
+    id: 10,
+    name: "Vestido Longo Drapeado em Verde Esmeralda",
+    price: 1500.0,
+    category: "Vestidos",
+    image: "public/vestidoverde.png",
+    description: "Vestido longo em verde esmeralda é uma celebração da cor e da fluidez.",
+  },
+  {
+    id: 11,
+    name: "Blazer de Lã Texturizada",
+    price: 600.0,
+    category: "Alfaiataria",
+    image: "public/blazer.png",
+    description:
+      "Blazer clássico, agora em um sofisticado tom de azul profundo, é a personificação da elegância versátil.",
+  },
+  {
+    id: 12,
+    name: "Camisa Social",
+    price: 450.0,
+    category: "Camisas",
+    image: "public/camisa.png",
+    description:
+      "Camisa social em um tom de azul sereno, exibindo a fluidez e o caimento impecável.",
+  },
 ];
 
 const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -333,35 +335,34 @@ function injectBackButton() {
 }
 
 function filterProductsByQuery(query) {
-    if (!query) return products;
-    
-    const normalizedQuery = query.toLowerCase().trim();
+  if (!query) return products;
 
-    return products.filter(product => {
-        const matchesName = product.name.toLowerCase().includes(normalizedQuery);
-        const matchesCategory = product.category.toLowerCase().includes(normalizedQuery);
-        const matchesDescription = product.description.toLowerCase().includes(normalizedQuery);
+  const normalizedQuery = query.toLowerCase().trim();
 
-        return matchesName || matchesCategory || matchesDescription;
-    });
+  return products.filter((product) => {
+    const matchesName = product.name.toLowerCase().includes(normalizedQuery);
+    const matchesCategory = product.category.toLowerCase().includes(normalizedQuery);
+    const matchesDescription = product.description.toLowerCase().includes(normalizedQuery);
+
+    return matchesName || matchesCategory || matchesDescription;
+  });
 }
 
 function renderProductsList(productsToRender) {
-    if (productsListContainer) {
-        if (productsToRender.length > 0) {
-            productsListContainer.innerHTML = productsToRender.map(renderProductCard).join("");
-        } else {
-            productsListContainer.innerHTML = `
+  if (productsListContainer) {
+    if (productsToRender.length > 0) {
+      productsListContainer.innerHTML = productsToRender.map(renderProductCard).join("");
+    } else {
+      productsListContainer.innerHTML = `
                 <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 0;">
                     <p style="color: var(--color-text-light); font-size: 1.1rem;">
                         Não encontramos produtos para sua busca. Tente um termo diferente.
                     </p>
                 </div>
             `;
-        }
     }
+  }
 }
-
 
 document.addEventListener("DOMContentLoaded", () => {
   updateCartCount();
@@ -370,35 +371,56 @@ document.addEventListener("DOMContentLoaded", () => {
   initCarousel();
 
   const urlParams = new URLSearchParams(window.location.search);
-  const searchQuery = urlParams.get("q"); 
+  const searchQuery = urlParams.get("q");
 
   if (productsGrid) {
     productsGrid.innerHTML = products.slice(0, 4).map(renderProductCard).join("");
   }
 
   if (productsListContainer) {
-    
-    let productsToDisplay = products;
-    
+    let productsToDisplay = [...products];
+
     if (searchQuery) {
-        const decodedQuery = decodeURIComponent(searchQuery);
-        productsToDisplay = filterProductsByQuery(decodedQuery);
-        
-        if (productsPageTitle) {
-            productsPageTitle.innerHTML = `Resultados para: "<strong>${decodedQuery}</strong>"`;
-        }
-        
-        const pageDescription = document.querySelector(".container.section > p");
-        if (pageDescription) {
-            pageDescription.style.display = 'none';
-        }
-        
-        const catalogControls = document.querySelector(".catalog-controls");
-        if (catalogControls) {
-            catalogControls.style.display = 'none';
-        }
+      const decodedQuery = decodeURIComponent(searchQuery);
+      productsToDisplay = filterProductsByQuery(decodedQuery);
+
+      if (productsPageTitle) {
+        productsPageTitle.innerHTML = `Resultados para: "<strong>${decodedQuery}</strong>"`;
+      }
+
+      const pageDescription = document.querySelector(".container.section > p");
+      if (pageDescription) {
+        pageDescription.style.display = "none";
+      }
     }
-    
+
+    const sortSelect = document.getElementById("sort-by");
+
+    function applySort(criteria) {
+      switch (criteria) {
+        case "low-price":
+          productsToDisplay.sort((a, b) => a.price - b.price);
+          break;
+        case "high-price":
+          productsToDisplay.sort((a, b) => b.price - a.price);
+          break;
+        case "newest":
+          productsToDisplay.sort((a, b) => b.id - a.id);
+          break;
+        case "relevance":
+        default:
+          productsToDisplay.sort((a, b) => a.id - b.id);
+          break;
+      }
+      renderProductsList(productsToDisplay);
+    }
+
+    if (sortSelect) {
+      sortSelect.addEventListener("change", (e) => {
+        applySort(e.target.value);
+      });
+    }
+
     renderProductsList(productsToDisplay);
   }
 

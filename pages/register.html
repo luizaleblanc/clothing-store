@@ -1,71 +1,136 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Criar Conta • Caputeeno</title>
 
-    <link rel="stylesheet" href="../css/base.css">
-    <link rel="stylesheet" href="../css/layout.css">
-    <link rel="stylesheet" href="../css/components.css">
-    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/auth.css" />
 
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  </head>
 
-</head>
-
-<body>
-
-    <app-header></app-header>
-
+  <body>
     <main class="auth-container">
-        <section class="auth-box">
+      <section class="auth-box">
+        <div class="auth-logo">
+          <img src="../public/images/caputeeno-logo.png" alt="Caputeeno" />
+        </div>
 
-            <div class="auth-logo">
-                <img src="../public/images/caputeeno-logo.png" 
-                     alt="Caputeeno">
+        <h2 class="auth-title">Criar Conta</h2>
+
+        <form id="registerForm">
+          <div class="input-field">
+            <label>Nome Completo</label>
+            <input type="text" id="name" placeholder="Seu nome" required />
+          </div>
+
+          <div class="input-field">
+            <label>Email</label>
+            <input type="email" id="email" placeholder="seuemail@example.com" required />
+          </div>
+
+          <div class="input-field">
+            <label>Senha</label>
+            <div class="input-icon-wrapper">
+              <input type="password" id="password" placeholder="Crie uma senha" required />
+              <span
+                class="password-toggle-icon"
+                onclick="togglePasswordVisibility('password', this)"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="feather feather-eye"
+                >
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </span>
             </div>
+          </div>
 
-            <h2 class="auth-title">Criar Conta</h2>
+          <div class="input-field">
+            <label>Confirmar Senha</label>
+            <div class="input-icon-wrapper">
+              <input type="password" id="confirmPassword" placeholder="Repita sua senha" required />
+              <span
+                class="password-toggle-icon"
+                onclick="togglePasswordVisibility('confirmPassword', this)"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="feather feather-eye"
+                >
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </span>
+            </div>
+          </div>
 
-            <form id="registerForm">
+          <p
+            style="
+              font-size: 13px;
+              color: var(--color-text-light);
+              margin-top: -10px;
+              margin-bottom: 20px;
+              text-align: left;
+            "
+          >
+            A senha deve conter:<br />
+            • Mínimo de 8 caracteres<br />
+            • Letra maiúscula e minúscula<br />
+            • Número e caractere especial
+          </p>
 
-                <div class="input-field">
-                    <label>Nome Completo</label>
-                    <input type="text" id="name" placeholder="Seu nome" required>
-                </div>
+          <button type="submit" class="auth-btn">Criar Conta</button>
 
-                <div class="input-field">
-                    <label>Email</label>
-                    <input type="email" id="email" placeholder="seuemail@example.com" required>
-                </div>
+          <div class="auth-links" style="align-items: center">
+            <span>Já tem conta?</span>
+            <a href="login.html" style="color: #ffffff; font-weight: 700">Entrar</a>
+          </div>
+        </form>
+      </section>
 
-                <div class="input-field">
-                    <label>Senha</label>
-                    <input type="password" id="password" placeholder="Crie uma senha" required>
-                </div>
+      <div class="auth-utilities">
+        <a
+          href="../index.html"
+          class="back-to-home-link"
+          style="color: var(--color-text-light); text-decoration: underline"
+        >
+          ← Voltar para a Home
+        </a>
 
-                <div class="input-field">
-                    <label>Confirmar Senha</label>
-                    <input type="password" id="confirmPassword" placeholder="Repita sua senha" required>
-                </div>
-
-                <button type="submit" class="auth-btn">Criar Conta</button>
-
-                <div class="auth-links">
-                    <span>Já tem conta?</span>
-                    <a href="login.html">Entrar</a>
-                </div>
-
-            </form>
-        </section>
+        <label class="theme-toggle-switch">
+          <span>Dark Mode</span>
+          <input type="checkbox" id="theme-toggle-input" />
+          <span class="slider"></span>
+        </label>
+      </div>
     </main>
-
-    <app-footer></app-footer>
 
     <script src="../js/components/header.js" defer></script>
     <script src="../js/components/footer.js" defer></script>
     <script src="../js/theme.js" defer></script>
     <script src="../js/auth.js" defer></script>
-</body>
+  </body>
 </html>
